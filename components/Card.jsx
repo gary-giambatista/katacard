@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { checkAnswer, initializeMap } from "../library/katakana.js";
+import { checkAnswer, testChar } from "../library/katakana.js";
 
 function Card() {
 	const [answer, setAnswer] = useState("");
+	const [test, setTest] = useState(testChar);
 
 	return (
 		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] h-[80vh] justify-between">
 			<div className="flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
-				<h1 className="text-9xl">カ</h1>
+				<h1 className="text-9xl">{test}</h1>
 			</div>
 			<div className="flex justify-evenly">
 				<div className="text-green-600">0</div>
@@ -24,7 +25,10 @@ function Card() {
 				/>
 				<button
 					className="rounded-r-2xl bg-slate-700 w-full hover:opacity-50"
-					onSubmit={(event) => checkAnswer(answer, event)}
+					onClick={(event) => {
+						checkAnswer(answer, event);
+						setTest(testChar);
+					}}
 				>
 					Submit
 				</button>
@@ -32,5 +36,5 @@ function Card() {
 		</div>
 	);
 }
-
+//get input working with "enter" key, reset it's value, and keep focus in input
 export default Card;

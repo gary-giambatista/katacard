@@ -1,5 +1,6 @@
+"use client";
 //Initialize Map for katana > English romaji
-const katakanaMap = new Map();
+// const katakanaMap = new Map();
 
 //object to store key => value pairs (romaji > katakana)
 const romajiToKatakana = {
@@ -110,13 +111,26 @@ const romajiToKatakana = {
 // pyo: 'ピョ',
 
 //Initialize Map with romaji => katakana key, value pairs
-function initializeMap() {
-	for (let key of Object.keys(romajiToKatakana)) {
-		katakanaMap.set(key, romajiToKatakana[key]); // romaji => katakana
-	}
-}
-initializeMap(); // call initialize function
+// function initializeMap() {
+// 	for (let key of Object.keys(romajiToKatakana)) {
+// 		katakanaMap.set(key, romajiToKatakana[key]); // romaji => katakana
+// 	}
+// }
+// initializeMap(); // call initialize function
 
+//Global values
+let keys = Object.keys(romajiToKatakana);
+let testNumber = Math.floor(Math.random() * keys.length);
+let testKey = keys[testNumber];
+export let testChar = romajiToKatakana[testKey];
+
+//Helper function to reset global values after getting answer CORRECT
+export function updateMap() {
+	keys = Object.keys(romajiToKatakana);
+	testNumber = Math.floor(Math.random() * keys.length);
+	testKey = keys[testNumber];
+	testChar = romajiToKatakana[testKey];
+}
 /**
  *
  * @param {string} answer user's submission
@@ -124,12 +138,18 @@ initializeMap(); // call initialize function
  * @returns {boolean}
  *
  */
-function checkAnswer(answer, event) {
+export function checkAnswer(answer, event) {
 	// event.preventDefault();
 	console.log("called");
-	if (katakanaMap.get(answer)) {
+	if (answer === testKey) {
+		console.log("CORRECT");
+		delete romajiToKatakana[testKey];
+		updateMap();
 		return true;
-	} else return false;
+	} else {
+		console.log("INCORRECT");
+		return false;
+	}
 }
 
-console.log(checkAnswer("ab"));
+//romajiToKatakana[answer] === testChar
