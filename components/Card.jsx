@@ -16,9 +16,17 @@ function Card() {
 				<div className="text-green-600">0</div>
 				<div className="text-red-600">0</div>
 			</div>
-			<div className="flex">
+			<form
+				className="flex"
+				onSubmit={(event) => {
+					event.preventDefault();
+					checkAnswer(answer, event);
+					setTest(testChar);
+					setAnswer("");
+				}}
+			>
 				<input
-					className="h-14 pl-5 rounded-l-2xl md:w-full"
+					className="h-14 pl-5 rounded-l-2xl md:w-full focus:outline-0"
 					placeholder="Enter..."
 					value={answer}
 					onChange={(e) => setAnswer(e.target.value)}
@@ -28,11 +36,12 @@ function Card() {
 					onClick={(event) => {
 						checkAnswer(answer, event);
 						setTest(testChar);
+						setAnswer("");
 					}}
 				>
 					Submit
 				</button>
-			</div>
+			</form>
 		</div>
 	);
 }
