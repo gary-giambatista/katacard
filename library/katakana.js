@@ -3,7 +3,7 @@
 // const katakanaMap = new Map();
 
 //object to store key => value pairs (romaji > katakana)
-const romajiToKatakana = {
+export const romajiToKatakana = {
 	a: "ア",
 	i: "イ",
 	u: "ウ",
@@ -120,9 +120,12 @@ const romajiToKatakana = {
 
 //Global values
 let keys = Object.keys(romajiToKatakana);
-let testNumber = Math.floor(Math.random() * keys.length);
+// let testNumber = Math.floor(Math.random() * keys.length);
+let testNumber = 1;
 let testKey = keys[testNumber];
 export let testChar = romajiToKatakana[testKey];
+export let correct = 0;
+export let incorrect = 0;
 
 //Helper function to reset global values after getting answer CORRECT
 export function updateMap() {
@@ -145,9 +148,11 @@ export function checkAnswer(answer, event) {
 		console.log("CORRECT");
 		delete romajiToKatakana[testKey];
 		updateMap();
+		correct += 1;
 		return true;
 	} else {
 		console.log("INCORRECT");
+		incorrect += 1;
 		return false;
 	}
 }
