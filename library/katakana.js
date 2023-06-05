@@ -120,12 +120,23 @@ export const romajiToKatakana = {
 
 //Global values
 let keys = Object.keys(romajiToKatakana);
-// let testNumber = Math.floor(Math.random() * keys.length);
-let testNumber = 1;
+let testNumber = Math.floor(Math.random() * keys.length);
+// let testNumber = 1;
 let testKey = keys[testNumber];
 export let testChar = romajiToKatakana[testKey];
 export let correct = 0;
 export let incorrect = 0;
+
+//use set storage function here and get storage in card component page mount useEffect
+function setStorageCorrect() {
+	console.log("Set LOCAL Storage on CORRECT");
+	localStorage.setItem("romajiToKatakana", JSON.stringify(romajiToKatakana));
+	localStorage.setItem("correct", `${correct}`);
+}
+function setStorageIncorrect() {
+	console.log("Set LOCAL Storage on INCORRECT");
+	localStorage.setItem("incorrect", `${incorrect}`);
+}
 
 //Helper function to reset global values after getting answer CORRECT
 export function updateMap() {
@@ -134,6 +145,27 @@ export function updateMap() {
 	testKey = keys[testNumber];
 	testChar = romajiToKatakana[testKey];
 }
+/**
+ *
+ * @param {object} oldRomajitoKatakana modified romajiToKatakana object
+ * @returns {void}
+ * Helper function to update global state and set testChar from storage
+ */
+export function updateMapOld(oldRomajitoKatakana) {
+	keys = Object.keys(oldRomajitoKatakana);
+	testNumber = Math.floor(Math.random() * keys.length);
+	testKey = keys[testNumber];
+	testChar = oldRomajitoKatakana[testKey];
+}
+
+//Use local storage int's to update correct or incorrect from useEffect in Card component
+export function updateOldCorrect(oldCorrect) {
+	correct = oldCorrect;
+}
+export function updateOldIncorrect(oldIncorrect) {
+	incorrect = oldIncorrect;
+}
+
 /**
  *
  * @param {string} answer user's submission
@@ -149,10 +181,12 @@ export function checkAnswer(answer, event) {
 		delete romajiToKatakana[testKey];
 		updateMap();
 		correct += 1;
+		setStorageCorrect();
 		return true;
 	} else {
 		console.log("INCORRECT");
 		incorrect += 1;
+		setStorageIncorrect();
 		return false;
 	}
 }

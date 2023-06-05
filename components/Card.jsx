@@ -5,18 +5,45 @@ import {
 	checkAnswer,
 	correct,
 	incorrect,
-	romajiToKatakana,
 	testChar,
+	updateMapOld,
+	updateOldCorrect,
+	updateOldIncorrect,
 } from "../library/katakana.js";
 
 function Card() {
 	const [answer, setAnswer] = useState("");
-	const [test, setTest] = useState(testChar);
+	const [test, setTest] = useState("");
 	const [correctAnswers, setCorrectAnswers] = useState(correct);
 	const [incorrectAnswers, setIncorrectAnswers] = useState(incorrect);
 
+	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
-		console.log("UYSE EFFECT");
+		console.log("Getting Local Storage");
+		if (localStorage.getItem("romajiToKatakana")) {
+			console.log("GOT Old R to K Storage");
+			const oldRomajiToKatakana = JSON.parse(
+				localStorage.getItem("romajiToKatakana")
+			);
+			//call updateMapOld to set testChar>test from shortened romaji>kata
+			updateMapOld(oldRomajiToKatakana);
+			if (localStorage.getItem("correct")) {
+				console.log("GOT Old correct from Storage");
+				const oldCorrect = JSON.parse(localStorage.getItem("correct"));
+				//update global correct to local storage correct
+				updateOldCorrect(oldCorrect);
+			}
+			if (localStorage.getItem("incorrect")) {
+				console.log("GOT Old incorrect from Storage");
+				const oldIncorrect = JSON.parse(localStorage.getItem("incorrect"));
+				//update global incorrect to local storage incorrect
+				updateOldIncorrect(oldIncorrect);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		console.log("USE EFFECT");
 		setTest(testChar);
 		setCorrectAnswers(correct);
 		setIncorrectAnswers(incorrect);
@@ -36,6 +63,7 @@ function Card() {
 				onSubmit={(event) => {
 					event.preventDefault();
 					checkAnswer(answer, event);
+					//using useEffect instead of below
 					// setTest(testChar);
 					// setCorrectAnswers(correct);
 					setAnswer("");
@@ -54,5 +82,5 @@ function Card() {
 		</div>
 	);
 }
-//get input working with "enter" key, reset it's value, and keep focus in input
+//Add reset button & Remaining: reset button can call localStorage.clear(), and make sure to check length of the new romajiToKatakana (a copy may be needed), also that length will be used to calculate remaining
 export default Card;
