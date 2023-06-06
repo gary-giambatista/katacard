@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import {
 	checkAnswer,
 	correct,
+	count,
 	incorrect,
+	reset,
 	testChar,
 	updateMapOld,
 	updateOldCorrect,
@@ -14,8 +16,10 @@ import {
 function Card() {
 	const [answer, setAnswer] = useState("");
 	const [test, setTest] = useState("");
+	const [currentCount, setCurrentCount] = useState(count);
 	const [correctAnswers, setCorrectAnswers] = useState(correct);
 	const [incorrectAnswers, setIncorrectAnswers] = useState(incorrect);
+	const [resetTrigger, setResetTrigger] = useState(false); //required to use setResetTrigger in reset function to change page state and rerender componen
 
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
@@ -45,9 +49,10 @@ function Card() {
 	useEffect(() => {
 		console.log("USE EFFECT");
 		setTest(testChar);
+		setCurrentCount(count);
 		setCorrectAnswers(correct);
 		setIncorrectAnswers(incorrect);
-	}, [testChar, correct, incorrect]);
+	}, [testChar, correct, incorrect, count, resetTrigger]);
 
 	return (
 		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] h-[80vh] justify-between">
@@ -57,6 +62,7 @@ function Card() {
 			<div className="flex justify-evenly">
 				<div className="text-green-600">{correctAnswers}</div>
 				<div className="text-red-600">{incorrectAnswers}</div>
+				<div className="text-red-600">{currentCount}</div>
 			</div>
 			<form
 				className="flex"
@@ -79,8 +85,20 @@ function Card() {
 					Submit
 				</button>
 			</form>
+			<button
+				onClick={() => {
+					reset();
+					setResetTrigger(!resetTrigger);
+				}}
+			>
+				Reset
+			</button>
 		</div>
 	);
 }
-//Add reset button & Remaining: reset button can call localStorage.clear(), and make sure to check length of the new romajiToKatakana (a copy may be needed), also that length will be used to calculate remaining
+//remaining seems off by 1
+//weird resetTrigger thing required for reseting
+//get a control flow of the state down, and clean up code
+//add hint
+//store failed key > value in new object or map
 export default Card;

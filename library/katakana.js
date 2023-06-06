@@ -3,7 +3,7 @@
 // const katakanaMap = new Map();
 
 //object to store key => value pairs (romaji > katakana)
-export const romajiToKatakana = {
+export let romajiToKatakana = {
 	a: "ア",
 	i: "イ",
 	u: "ウ",
@@ -74,7 +74,7 @@ export const romajiToKatakana = {
 	pe: "ペ",
 	po: "ポ",
 };
-
+let copy = { ...romajiToKatakana };
 //Compound Sounds:
 // kya: 'キャ',
 // kyu: 'キュ',
@@ -126,6 +126,7 @@ let testKey = keys[testNumber];
 export let testChar = romajiToKatakana[testKey];
 export let correct = 0;
 export let incorrect = 0;
+export let count = Object.keys(romajiToKatakana).length;
 
 //use set storage function here and get storage in card component page mount useEffect
 function setStorageCorrect() {
@@ -141,6 +142,7 @@ function setStorageIncorrect() {
 //Helper function to reset global values after getting answer CORRECT
 export function updateMap() {
 	keys = Object.keys(romajiToKatakana);
+	count = keys.length;
 	testNumber = Math.floor(Math.random() * keys.length);
 	testKey = keys[testNumber];
 	testChar = romajiToKatakana[testKey];
@@ -152,10 +154,13 @@ export function updateMap() {
  * Helper function to update global state and set testChar from storage
  */
 export function updateMapOld(oldRomajitoKatakana) {
-	keys = Object.keys(oldRomajitoKatakana);
-	testNumber = Math.floor(Math.random() * keys.length);
-	testKey = keys[testNumber];
-	testChar = oldRomajitoKatakana[testKey];
+	romajiToKatakana = oldRomajitoKatakana;
+	updateMap();
+	// keys = Object.keys(oldRomajitoKatakana);
+	// count = keys.length;
+	// testNumber = Math.floor(Math.random() * keys.length);
+	// testKey = keys[testNumber];
+	// testChar = oldRomajitoKatakana[testKey];
 }
 
 //Use local storage int's to update correct or incorrect from useEffect in Card component
@@ -174,8 +179,7 @@ export function updateOldIncorrect(oldIncorrect) {
  *
  */
 export function checkAnswer(answer, event) {
-	// event.preventDefault();
-	console.log("called");
+	console.log("Check Answer Called");
 	if (answer === testKey) {
 		console.log("CORRECT");
 		delete romajiToKatakana[testKey];
@@ -187,8 +191,17 @@ export function checkAnswer(answer, event) {
 		console.log("INCORRECT");
 		incorrect += 1;
 		setStorageIncorrect();
+		//add new key>val to local storage here for incorrect to 0
 		return false;
 	}
 }
 
-//romajiToKatakana[answer] === testChar
+export function reset() {
+	console.log("reset ran");
+	localStorage.clear();
+	romajiToKatakana = copy;
+	updateMap();
+	correct = 0;
+	incorrect = 0;
+	count = Object.keys(romajiToKatakana).length;
+}
