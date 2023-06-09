@@ -20,7 +20,8 @@ function Card() {
 	const [correctAnswers, setCorrectAnswers] = useState(correct);
 	const [incorrectAnswers, setIncorrectAnswers] = useState(incorrect);
 	const [resetTrigger, setResetTrigger] = useState(false); //required to use setResetTrigger in reset function to change page state and rerender componen
-
+	//TODO: Make mode switch here, to call different functions for each game mode: decide to make functions dynamic with parameters or create new functions for updating incorrectMap when playing wrong to 0 game mode
+	//TODO: add hint via using key's first char
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
 		console.log("Getting Local Storage");
@@ -68,7 +69,7 @@ function Card() {
 				className="flex"
 				onSubmit={(event) => {
 					event.preventDefault();
-					checkAnswer(answer, event);
+					checkAnswer(answer);
 					//using useEffect instead of below
 					// setTest(testChar);
 					// setCorrectAnswers(correct);

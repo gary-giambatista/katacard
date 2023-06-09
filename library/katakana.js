@@ -75,6 +75,7 @@ export let romajiToKatakana = {
 	po: "ポ",
 };
 let copy = { ...romajiToKatakana };
+let incorrectMap = {};
 //Compound Sounds:
 // kya: 'キャ',
 // kyu: 'キュ',
@@ -138,6 +139,12 @@ function setStorageIncorrect() {
 	console.log("Set LOCAL Storage on INCORRECT");
 	localStorage.setItem("incorrect", `${incorrect}`);
 }
+function setStorageIncorrectMap() {
+	console.log("Set LOCAL Storage on INCORRECT MAP");
+	console.log(testKey, testChar, typeof testKey, typeof testChar);
+	incorrectMap[testKey] = testChar;
+	localStorage.setItem("incorrectMap", JSON.stringify(incorrectMap));
+}
 
 //Helper function to reset global values after getting answer CORRECT
 export function updateMap() {
@@ -174,11 +181,10 @@ export function updateOldIncorrect(oldIncorrect) {
 /**
  *
  * @param {string} answer user's submission
- * @param {event} event form event
  * @returns {boolean}
  *
  */
-export function checkAnswer(answer, event) {
+export function checkAnswer(answer) {
 	console.log("Check Answer Called");
 	if (answer === testKey) {
 		console.log("CORRECT");
@@ -191,6 +197,7 @@ export function checkAnswer(answer, event) {
 		console.log("INCORRECT");
 		incorrect += 1;
 		setStorageIncorrect();
+		setStorageIncorrectMap();
 		//add new key>val to local storage here for incorrect to 0
 		return false;
 	}
