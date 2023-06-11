@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {
+	changeMapData,
 	checkAnswer,
 	correct,
 	count,
@@ -22,6 +23,7 @@ function Card() {
 	const [incorrectAnswers, setIncorrectAnswers] = useState(incorrect);
 	const [resetTrigger, setResetTrigger] = useState(false); //required to use setResetTrigger in reset function to change page state and rerender componen
 	const [hint, setHint] = useState(""); //use testKey to set onClick of Hint button >> reset to "" when submit button is clicked
+	const [mode, setMode] = useState("Regular"); //Regular or Failed
 	//TODO: Make mode switch here, to call different functions for each game mode: decide to make functions dynamic with parameters or create new functions for updating incorrectMap when playing wrong to 0 game mode
 	//TODO: Stlye improvements
 	//Check for existing session from Local Storage and update global state
@@ -48,6 +50,13 @@ function Card() {
 			}
 		}
 	}, []);
+	//updates romajiToKatakana to correct map romajiToKatakana or incorrectMap
+	useEffect(() => {
+		changeMapData(mode);
+		setHint("");
+		setTest(testChar);
+		setCurrentCount(count);
+	}, [mode]);
 
 	useEffect(() => {
 		console.log("USE EFFECT");
@@ -95,14 +104,24 @@ function Card() {
 					Submit
 				</button>
 			</form>
-			<button
-				onClick={() => {
-					reset();
-					setResetTrigger(!resetTrigger);
-				}}
-			>
-				Reset
-			</button>
+			<div className="flex">
+				<button
+					onClick={() => {
+						reset();
+						setMode("Regular");
+						setResetTrigger(!resetTrigger);
+					}}
+				>
+					Reset
+				</button>
+				<button
+					onClick={() =>
+						mode === "Regular" ? setMode("Failed") : setMode("Regular")
+					}
+				>
+					Change Mode
+				</button>
+			</div>
 		</div>
 	);
 }

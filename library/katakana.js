@@ -1,6 +1,4 @@
 "use client";
-//Initialize Map for katana > English romaji
-// const katakanaMap = new Map();
 
 //object to store key => value pairs (romaji > katakana)
 export let romajiToKatakana = {
@@ -111,14 +109,6 @@ let incorrectMap = {};
 // pyu: 'ピュ',
 // pyo: 'ピョ',
 
-//Initialize Map with romaji => katakana key, value pairs
-// function initializeMap() {
-// 	for (let key of Object.keys(romajiToKatakana)) {
-// 		katakanaMap.set(key, romajiToKatakana[key]); // romaji => katakana
-// 	}
-// }
-// initializeMap(); // call initialize function
-
 //Global values
 let keys = Object.keys(romajiToKatakana);
 let testNumber = Math.floor(Math.random() * keys.length);
@@ -211,4 +201,24 @@ export function reset() {
 	correct = 0;
 	incorrect = 0;
 	count = Object.keys(romajiToKatakana).length;
+}
+
+export function changeMapData(mode) {
+	console.log("Changed MODE CALLED", mode);
+	if (mode === "Regular") {
+		const oldRomajiToKatakana = JSON.parse(
+			localStorage.getItem("romajiToKatakana")
+		);
+		if (oldRomajiToKatakana) {
+			updateMapOld(oldRomajiToKatakana);
+		}
+	} else {
+		const failedKatakanaToRomaji = JSON.parse(
+			localStorage.getItem("incorrectMap")
+		);
+		if (failedKatakanaToRomaji) {
+			romajiToKatakana = failedKatakanaToRomaji;
+			updateMap();
+		}
+	}
 }
