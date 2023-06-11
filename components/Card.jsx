@@ -8,6 +8,7 @@ import {
 	incorrect,
 	reset,
 	testChar,
+	testKey,
 	updateMapOld,
 	updateOldCorrect,
 	updateOldIncorrect,
@@ -20,8 +21,9 @@ function Card() {
 	const [correctAnswers, setCorrectAnswers] = useState(correct);
 	const [incorrectAnswers, setIncorrectAnswers] = useState(incorrect);
 	const [resetTrigger, setResetTrigger] = useState(false); //required to use setResetTrigger in reset function to change page state and rerender componen
+	const [hint, setHint] = useState(""); //use testKey to set onClick of Hint button >> reset to "" when submit button is clicked
 	//TODO: Make mode switch here, to call different functions for each game mode: decide to make functions dynamic with parameters or create new functions for updating incorrectMap when playing wrong to 0 game mode
-	//TODO: add hint via using key's first char
+	//TODO: Stlye improvements
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
 		console.log("Getting Local Storage");
@@ -57,13 +59,19 @@ function Card() {
 
 	return (
 		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] h-[80vh] justify-between">
-			<div className="flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
+			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
 				<h1 className="text-9xl">{test}</h1>
+				<button
+					onClick={() => setHint(testKey)}
+					className="absolute right-5 bottom-3"
+				>
+					<h5>{hint ? hint[0] : "Hint"}</h5>
+				</button>
 			</div>
 			<div className="flex justify-evenly">
 				<div className="text-green-600">{correctAnswers}</div>
 				<div className="text-red-600">{incorrectAnswers}</div>
-				<div className="text-red-600">{currentCount}</div>
+				<div className="text-white">Remaining: {currentCount}</div>
 			</div>
 			<form
 				className="flex"
@@ -74,6 +82,7 @@ function Card() {
 					// setTest(testChar);
 					// setCorrectAnswers(correct);
 					setAnswer("");
+					setHint("");
 				}}
 			>
 				<input
