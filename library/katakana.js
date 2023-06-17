@@ -174,14 +174,14 @@ export function updateOldIncorrect(oldIncorrect) {
  * @returns {boolean}
  *
  */
-export function checkAnswer(answer) {
+export function checkAnswer(answer, mode) {
 	console.log("Check Answer Called");
 	if (answer === testKey) {
 		console.log("CORRECT");
 		delete romajiToKatakana[testKey];
 		updateMap();
 		correct += 1;
-		setStorageCorrect();
+		mode === "Regular" ? setStorageCorrect() : setStorageIncorrectMap();
 		return true;
 	} else {
 		console.log("INCORRECT");

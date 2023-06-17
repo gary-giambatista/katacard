@@ -26,6 +26,7 @@ function Card() {
 	const [mode, setMode] = useState("Regular"); //Regular or Failed
 	//TODO: Make mode switch here, to call different functions for each game mode: decide to make functions dynamic with parameters or create new functions for updating incorrectMap when playing wrong to 0 game mode
 	//TODO: Stlye improvements
+	//TODO: add useRef > focus on input after change mode
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
 		console.log("Getting Local Storage");
@@ -86,7 +87,7 @@ function Card() {
 				className="flex"
 				onSubmit={(event) => {
 					event.preventDefault();
-					checkAnswer(answer);
+					checkAnswer(answer, mode);
 					//using useEffect instead of below
 					// setTest(testChar);
 					// setCorrectAnswers(correct);
@@ -125,9 +126,8 @@ function Card() {
 		</div>
 	);
 }
+//BUGS
 //remaining seems off by 1
-//weird resetTrigger thing required for reseting
-//get a control flow of the state down, and clean up code
-//add hint
-//store failed key > value in new object or map
+//
+
 export default Card;
