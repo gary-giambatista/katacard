@@ -8,6 +8,7 @@ import {
 	count,
 	incorrect,
 	reset,
+	resetFailed,
 	testChar,
 	testKey,
 	updateMapOld,
@@ -68,7 +69,7 @@ function Card() {
 	}, [testChar, correct, incorrect, count, resetTrigger]);
 
 	return (
-		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] h-[80vh] justify-between">
+		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] h-[80vh] justify-between gap-2">
 			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
 				<h1 className="text-9xl">{test}</h1>
 				<button
@@ -76,6 +77,35 @@ function Card() {
 					className="absolute right-5 bottom-3"
 				>
 					<h5>{hint ? hint[0] : "Hint"}</h5>
+				</button>
+			</div>
+			<div className="flex justify-between md:justify-center md:gap-2">
+				<button
+					className="bg-[#7C6E9C] p-1 px-3 rounded-md"
+					onClick={() => {
+						reset();
+						setMode("Regular");
+						setResetTrigger(!resetTrigger);
+					}}
+				>
+					Reset
+				</button>
+				<button
+					className="bg-[#7C6E9C] p-1 px-3 rounded-md"
+					onClick={() => {
+						resetFailed();
+						setResetTrigger(!resetTrigger);
+					}}
+				>
+					Clear Failed
+				</button>
+				<button
+					className="bg-[#7C6E9C] p-1 px-3 rounded-md"
+					onClick={() =>
+						mode === "Regular" ? setMode("Failed") : setMode("Regular")
+					}
+				>
+					Change Mode
 				</button>
 			</div>
 			<div className="flex justify-evenly">
@@ -101,28 +131,10 @@ function Card() {
 					value={answer}
 					onChange={(e) => setAnswer(e.target.value)}
 				/>
-				<button className="rounded-r-2xl bg-slate-700 w-full hover:opacity-50">
+				<button className="rounded-r-2xl bg-[#7C6E9C] w-full hover:opacity-50">
 					Submit
 				</button>
 			</form>
-			<div className="flex">
-				<button
-					onClick={() => {
-						reset();
-						setMode("Regular");
-						setResetTrigger(!resetTrigger);
-					}}
-				>
-					Reset
-				</button>
-				<button
-					onClick={() =>
-						mode === "Regular" ? setMode("Failed") : setMode("Regular")
-					}
-				>
-					Change Mode
-				</button>
-			</div>
 		</div>
 	);
 }
