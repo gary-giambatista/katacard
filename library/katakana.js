@@ -227,5 +227,6 @@ export function changeMapData(mode) {
 export function resetFailed() {
 	console.log("Reset Failed RAN");
 	localStorage.removeItem("incorrectMap");
+	incorrectMap = {};
 	incorrect = 0;
 }
