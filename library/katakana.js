@@ -212,6 +212,10 @@ export function changeMapData(mode) {
 		);
 		if (oldRomajiToKatakana) {
 			updateMapOld(oldRomajiToKatakana);
+		} else {
+			//Where no answers are yet recorded
+			romajiToKatakana = { ...copy };
+			updateMap();
 		}
 	} else {
 		const failedKatakanaToRomaji = JSON.parse(

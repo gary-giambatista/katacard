@@ -25,6 +25,7 @@ function Card() {
 	const [resetTrigger, setResetTrigger] = useState(false); //required to use setResetTrigger in reset function to change page state and rerender componen
 	const [hint, setHint] = useState(""); //use testKey to set onClick of Hint button >> reset to "" when submit button is clicked
 	const [mode, setMode] = useState("Regular"); //Regular or Failed
+	const [failedModeEnabled, setFailedModeEnabled] = useState(false);
 	//TODO: Make mode switch here, to call different functions for each game mode: decide to make functions dynamic with parameters or create new functions for updating incorrectMap when playing wrong to 0 game mode
 	//TODO: Stlye improvements
 	//TODO: add useRef > focus on input after change mode
@@ -50,6 +51,9 @@ function Card() {
 				//update global incorrect to local storage incorrect
 				updateOldIncorrect(oldIncorrect);
 			}
+			localStorage.getItem("incorrectMap")
+				? setFailedModeEnabled(true)
+				: setFailedModeEnabled(false);
 		}
 	}, []);
 	//updates romajiToKatakana to correct map romajiToKatakana or incorrectMap
@@ -66,22 +70,23 @@ function Card() {
 		setCurrentCount(count);
 		setCorrectAnswers(correct);
 		setIncorrectAnswers(incorrect);
+		localStorage.getItem("incorrectMap")
+			? setFailedModeEnabled(true)
+			: setFailedModeEnabled(false);
 	}, [testChar, correct, incorrect, count, resetTrigger]);
 
+	function changeMode() {
+		!failedModeEnabled
+			? alert("Failed Mode requires misses ;)")
+			: mode === "Regular"
+			? setMode("Failed")
+			: setMode("Regular");
+	}
 	return (
-		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] h-[80vh] justify-between gap-2">
-			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
-				<h1 className="text-9xl">{test}</h1>
+		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw] h-[80vh] justify-between gap-2">
+			<div className="flex justify-between mb-2 md:justify-center md:gap-2">
 				<button
-					onClick={() => setHint(testKey)}
-					className="absolute right-5 bottom-3"
-				>
-					<h5>{hint ? hint[0] : "Hint"}</h5>
-				</button>
-			</div>
-			<div className="flex justify-between md:justify-center md:gap-2">
-				<button
-					className="bg-[#7C6E9C] p-1 px-3 rounded-md"
+					className="bg-[#7C6E9C] p-1 px-3 rounded-md hover:opacity-50"
 					onClick={() => {
 						reset();
 						setMode("Regular");
@@ -91,21 +96,35 @@ function Card() {
 					Reset
 				</button>
 				<button
-					className="bg-[#7C6E9C] p-1 px-3 rounded-md"
+					className="bg-[#7C6E9C] p-1 px-3 rounded-md hover:opacity-50"
 					onClick={() => {
 						resetFailed();
+						setMode("Regular");
 						setResetTrigger(!resetTrigger);
 					}}
 				>
 					Clear Failed
 				</button>
 				<button
-					className="bg-[#7C6E9C] p-1 px-3 rounded-md"
-					onClick={() =>
-						mode === "Regular" ? setMode("Failed") : setMode("Regular")
-					}
+					className="bg-[#7C6E9C] p-1 px-3 rounded-md hover:opacity-50"
+					// disabled={!failedModeEnabled}
+					onClick={() => {
+						changeMode();
+					}}
 				>
 					Change Mode
+				</button>
+			</div>
+			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
+				<h1 className="text-9xl">{test ? test : "😁"}</h1>
+				<button onClick={() => changeMode()} className="absolute left-5 top-3">
+					<h5>{mode} Mode</h5>
+				</button>
+				<button
+					onClick={() => (hint ? setHint("") : setHint(testKey))}
+					className="absolute right-5 bottom-3"
+				>
+					<h5>{hint ? hint[0] : "Hint"}</h5>
 				</button>
 			</div>
 			<div className="flex justify-evenly">
