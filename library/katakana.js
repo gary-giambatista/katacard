@@ -186,8 +186,8 @@ export function checkAnswer(answer, mode) {
 	} else {
 		console.log("INCORRECT");
 		incorrect += 1;
-		setStorageIncorrect();
-		setStorageIncorrectMap();
+		setStorageIncorrect(); // number of incorrect
+		setStorageIncorrectMap(); // map of incorrect romajiToKatakana
 		//add new key>val to local storage here for incorrect to 0
 		return false;
 	}
@@ -197,6 +197,7 @@ export function reset() {
 	console.log("reset ran");
 	localStorage.clear();
 	romajiToKatakana = copy;
+	incorrectMap = {};
 	updateMap();
 	correct = 0;
 	incorrect = 0;
@@ -221,4 +222,10 @@ export function changeMapData(mode) {
 			updateMap();
 		}
 	}
+}
+
+export function resetFailed() {
+	console.log("Reset Failed RAN");
+	localStorage.removeItem("incorrectMap");
+	incorrect = 0;
 }
