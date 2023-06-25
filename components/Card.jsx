@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toHiragana } from "wanakana";
 import {
 	changeMapData,
 	checkAnswer,
@@ -145,10 +146,13 @@ function Card() {
 				}}
 			>
 				<input
+					autoCorrect="off"
 					className="h-14 pl-5 rounded-l-2xl md:w-full focus:outline-0"
 					placeholder="Enter..."
 					value={answer}
-					onChange={(e) => setAnswer(e.target.value)}
+					onChange={(e) =>
+						setAnswer(toHiragana(e.target.value, { IMEMode: true }))
+					}
 				/>
 				<button className="rounded-r-2xl bg-[#7C6E9C] w-full hover:opacity-50">
 					Submit
