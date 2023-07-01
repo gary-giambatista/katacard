@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toHiragana } from "wanakana";
 import {
 	changeMapData,
@@ -27,9 +27,9 @@ function Card() {
 	const [hint, setHint] = useState(""); //use testKey to set onClick of Hint button >> reset to "" when submit button is clicked
 	const [mode, setMode] = useState("Regular"); //Regular or Failed
 	const [failedModeEnabled, setFailedModeEnabled] = useState(false);
-	//TODO: Make mode switch here, to call different functions for each game mode: decide to make functions dynamic with parameters or create new functions for updating incorrectMap when playing wrong to 0 game mode
-	//TODO: Stlye improvements
-	//TODO: add useRef > focus on input after change mode
+	const inputRef = useRef(null);
+
+	console.log(/iPhone/.test(navigator.userAgent));
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
 		console.log("Getting Local Storage");
@@ -92,6 +92,7 @@ function Card() {
 						reset();
 						setMode("Regular");
 						setResetTrigger(!resetTrigger);
+						inputRef.current?.focus();
 					}}
 				>
 					Reset
@@ -102,6 +103,7 @@ function Card() {
 						resetFailed();
 						setMode("Regular");
 						setResetTrigger(!resetTrigger);
+						inputRef.current?.focus();
 					}}
 				>
 					Clear Failed
@@ -111,6 +113,7 @@ function Card() {
 					// disabled={!failedModeEnabled}
 					onClick={() => {
 						changeMode();
+						inputRef.current?.focus();
 					}}
 				>
 					Change Mode
@@ -143,9 +146,11 @@ function Card() {
 					// setCorrectAnswers(correct);
 					setAnswer("");
 					setHint("");
+					inputRef.current?.focus();
 				}}
 			>
 				<input
+					ref={inputRef}
 					autoCorrect="off"
 					className="h-14 pl-5 rounded-l-2xl md:w-full focus:outline-0"
 					placeholder="Enter..."
@@ -166,3 +171,16 @@ function Card() {
 //
 
 export default Card;
+
+//Handling IOS keyboard
+//1. Check if the user's device is IOS
+//2. add useRef for focus on the input
+//TODO: next
+//3. add a style to the card component when focus is on the input
+//4. remove the style when the focus in not on the input
+
+//Handling Android Keyboard
+//1. add media query for height to adjust font of {test}
+
+//add compound mode?
+//add most popular words mode?
