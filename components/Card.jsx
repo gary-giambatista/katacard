@@ -28,8 +28,8 @@ function Card() {
 	const [mode, setMode] = useState("Regular"); //Regular or Failed
 	const [failedModeEnabled, setFailedModeEnabled] = useState(false);
 	const inputRef = useRef(null);
+	const [isFocused, setIsFocused] = useState(false);
 
-	console.log(/iPhone/.test(navigator.userAgent));
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
 		console.log("Getting Local Storage");
@@ -84,7 +84,11 @@ function Card() {
 			: setMode("Regular");
 	}
 	return (
-		<div className="flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw] h-[80vh] justify-between gap-2">
+		<div
+			className={`flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw] h-[80vh] justify-between gap-2 pb-20 ${
+				/iPhone/.test(navigator.userAgent) && isFocused ? "h-[52vh]" : ""
+			}`}
+		>
 			<div className="flex justify-between mb-2 md:justify-center md:gap-2">
 				<button
 					className="bg-[#7C6E9C] p-1 px-3 rounded-md hover:opacity-50"
@@ -122,7 +126,10 @@ function Card() {
 			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
 				<h1 className="text-9xl">{test ? test : "😁"}</h1>
 				<button onClick={() => changeMode()} className="absolute left-5 top-3">
-					<h5>{mode} Mode</h5>
+					<h5>
+						{mode}{" "}
+						{/iPhone/.test(navigator.userAgent) && isFocused ? null : "Mode"}
+					</h5>
 				</button>
 				<button
 					onClick={() => (hint ? setHint("") : setHint(testKey))}
@@ -150,6 +157,8 @@ function Card() {
 				}}
 			>
 				<input
+					onFocus={(e) => setIsFocused(true)}
+					onBlur={(e) => setIsFocused(false)}
 					ref={inputRef}
 					autoCorrect="off"
 					className="h-14 pl-5 rounded-l-2xl md:w-full focus:outline-0"
@@ -175,10 +184,10 @@ export default Card;
 //Handling IOS keyboard
 //1. Check if the user's device is IOS
 //2. add useRef for focus on the input
-//TODO: next
 //3. add a style to the card component when focus is on the input
 //4. remove the style when the focus in not on the input
-
+//TODO: next
+//1. set screen to top upon focus!
 //Handling Android Keyboard
 //1. add media query for height to adjust font of {test}
 
