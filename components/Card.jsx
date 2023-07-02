@@ -94,8 +94,8 @@ function Card() {
 	console.log(checkForMobile());
 	return (
 		<div
-			className={`flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw] h-[80vh] justify-between gap-2 pb-20 ${
-				checkForMobile() ? "h-[53vh]" : ""
+			className={`flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw]  justify-between gap-2 pb-20 ${
+				checkForMobile() ? "h-[52vh]" : "h-[80vh]"
 			}`}
 		>
 			<div className="flex justify-between mb-2 md:justify-center md:gap-2">
@@ -133,7 +133,7 @@ function Card() {
 				</button>
 			</div>
 			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
-				<h1 className={`text-9xl ${checkForMobile() ? "text-7xl" : ""} `}>
+				<h1 className={`${checkForMobile() ? "text-7xl" : "text-9xl"} `}>
 					{test ? test : "😁"}
 				</h1>
 				<button onClick={() => changeMode()} className="absolute left-5 top-3">
