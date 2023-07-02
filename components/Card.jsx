@@ -167,7 +167,18 @@ function Card() {
 				}}
 			>
 				<input
-					onFocus={(e) => setIsFocused(true)}
+					onFocus={(e) => {
+						setIsFocused(true);
+						setTimeout(() => {
+							window.scrollTo({
+								top: 0,
+								behavior: "smooth",
+							});
+						}, 300);
+
+						// document.body.scrollTop = document.documentElement.scrollTop = 0;
+						// document.body.scrollTop = 0;
+					}}
 					onBlur={(e) => setIsFocused(false)}
 					ref={inputRef}
 					autoCorrect="off"
