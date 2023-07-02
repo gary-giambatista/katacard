@@ -83,10 +83,19 @@ function Card() {
 			? setMode("Failed")
 			: setMode("Regular");
 	}
+	function checkForMobile() {
+		if (typeof window !== "undefined") {
+			if (/iPhone|Android/.test(navigator.userAgent) && isFocused) {
+				return true;
+			}
+		}
+		return false;
+	}
+	console.log(checkForMobile());
 	return (
 		<div
 			className={`flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw] h-[80vh] justify-between gap-2 pb-20 ${
-				/iPhone/.test(navigator.userAgent) && isFocused ? "h-[52vh]" : ""
+				checkForMobile() ? "h-[53vh]" : ""
 			}`}
 		>
 			<div className="flex justify-between mb-2 md:justify-center md:gap-2">
@@ -124,11 +133,12 @@ function Card() {
 				</button>
 			</div>
 			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
-				<h1 className="text-9xl">{test ? test : "😁"}</h1>
+				<h1 className={`text-9xl ${checkForMobile() ? "text-7xl" : ""} `}>
+					{test ? test : "😁"}
+				</h1>
 				<button onClick={() => changeMode()} className="absolute left-5 top-3">
 					<h5>
-						{mode}{" "}
-						{/iPhone/.test(navigator.userAgent) && isFocused ? null : "Mode"}
+						{mode} {checkForMobile() ? null : "Mode"}
 					</h5>
 				</button>
 				<button
