@@ -144,7 +144,7 @@ export let romajiToKatakana = {
 	ぽ: "ポ",
 };
 let copy = { ...romajiToKatakana };
-let incorrectMap = {};
+export let incorrectMap = {};
 //Compound Sounds:
 // kya: 'キャ',
 // kyu: 'キュ',
@@ -238,6 +238,9 @@ export function updateOldCorrect(oldCorrect) {
 export function updateOldIncorrect(oldIncorrect) {
 	incorrect = oldIncorrect;
 }
+export function UpdateOldIncorrectMap(oldIncorrectMap) {
+	incorrectMap = oldIncorrectMap;
+}
 
 /**
  *
@@ -257,7 +260,16 @@ export function checkAnswer(answer, mode) {
 		return true;
 	} else {
 		console.log("INCORRECT");
-		incorrect += 1;
+		if (
+			localStorage.getItem("incorrectMap") &&
+			!JSON.parse(localStorage.getItem("incorrectMap"))[testKey]
+		) {
+			incorrect += 1;
+		}
+		if (incorrect === 0) {
+			incorrect += 1;
+		}
+		// incorrect += 1;
 		setStorageIncorrect(); // number of incorrect
 		setStorageIncorrectMap(); // map of incorrect romajiToKatakana
 		//add new key>val to local storage here for incorrect to 0

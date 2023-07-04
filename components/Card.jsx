@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toHiragana } from "wanakana";
 import {
+	UpdateOldIncorrectMap,
 	changeMapData,
 	checkAnswer,
 	correct,
@@ -40,22 +41,27 @@ function Card() {
 			);
 			//call updateMapOld to set testChar>test from shortened romaji>kata
 			updateMapOld(oldRomajiToKatakana);
-			if (localStorage.getItem("correct")) {
-				console.log("GOT Old correct from Storage");
-				const oldCorrect = JSON.parse(localStorage.getItem("correct"));
-				//update global correct to local storage correct
-				updateOldCorrect(oldCorrect);
-			}
-			if (localStorage.getItem("incorrect")) {
-				console.log("GOT Old incorrect from Storage");
-				const oldIncorrect = JSON.parse(localStorage.getItem("incorrect"));
-				//update global incorrect to local storage incorrect
-				updateOldIncorrect(oldIncorrect);
-			}
-			localStorage.getItem("incorrectMap")
-				? setFailedModeEnabled(true)
-				: setFailedModeEnabled(false);
 		}
+		if (localStorage.getItem("correct")) {
+			console.log("GOT Old correct from Storage");
+			const oldCorrect = JSON.parse(localStorage.getItem("correct"));
+			//update global correct to local storage correct
+			updateOldCorrect(oldCorrect);
+		}
+		if (localStorage.getItem("incorrect")) {
+			console.log("GOT Old incorrect from Storage");
+			const oldIncorrect = JSON.parse(localStorage.getItem("incorrect"));
+			//update global incorrect to local storage incorrect
+			updateOldIncorrect(oldIncorrect);
+		}
+		if (localStorage.getItem("incorrectMap")) {
+			console.log("GOT old incorrectMap from local storage");
+			const oldIncorrectMap = JSON.parse(localStorage.getItem("incorrectMap"));
+			UpdateOldIncorrectMap(oldIncorrectMap);
+		}
+		// localStorage.getItem("incorrectMap")
+		// 	? setFailedModeEnabled(true)
+		// 	: setFailedModeEnabled(false);
 	}, []);
 	//updates romajiToKatakana to correct map romajiToKatakana or incorrectMap
 	useEffect(() => {
@@ -71,13 +77,13 @@ function Card() {
 		setCurrentCount(count);
 		setCorrectAnswers(correct);
 		setIncorrectAnswers(incorrect);
-		localStorage.getItem("incorrectMap")
-			? setFailedModeEnabled(true)
-			: setFailedModeEnabled(false);
+		// localStorage.getItem("incorrectMap")
+		// 	? setFailedModeEnabled(true)
+		// 	: setFailedModeEnabled(false);
 	}, [testChar, correct, incorrect, count, resetTrigger]);
 
 	function changeMode() {
-		!failedModeEnabled
+		!localStorage.getItem("incorrectMap")
 			? alert("Failed Mode requires misses ;)")
 			: mode === "Regular"
 			? setMode("Failed")
@@ -91,7 +97,7 @@ function Card() {
 		}
 		return false;
 	}
-	console.log(checkForMobile());
+
 	return (
 		<div
 			className={`flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw]  justify-between gap-2 pb-20 ${
@@ -198,7 +204,9 @@ function Card() {
 }
 //BUGS
 //remaining seems off by 1
-//
+//ONLY failed and refresh doesn't save local storage -- not fetching when no romajiToKatakana
+//on refresh, incorrectMap is reset on first incorrect answer
+//test failed are not removed from romjaiToKatakana >> cause error with failed number? -- doesn't seem to cause issues ROBUST! lower test count and test again if needed
 
 export default Card;
 
