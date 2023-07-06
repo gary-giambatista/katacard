@@ -210,15 +210,9 @@ function Card() {
 
 export default Card;
 
-//Handling IOS keyboard
-//1. Check if the user's device is IOS
-//2. add useRef for focus on the input
-//3. add a style to the card component when focus is on the input
-//4. remove the style when the focus in not on the input
-//TODO: next
-//1. set screen to top upon focus!
-//Handling Android Keyboard
-//1. add media query for height to adjust font of {test}
+//TODO: Modes where to add, new page or input selector?
 
-//add compound mode?
-//add most popular words mode?
+//Researching proper way to do routes, need to learn layouts for each route
+//Manually update map for RTK and make opposite for Hiragana mode
+//add compound mode
+//add most popular words mode

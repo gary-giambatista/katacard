@@ -1,5 +1,6 @@
 import KatacardLogo from "@/public/katacard-logo.png";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function Header() {
@@ -13,7 +14,7 @@ function Header() {
 				quality={100}
 			/>
 			<h1 className="text-3xl text-gray-50">Katacard</h1>
-			<div>{/* <button>Sign In</button> */}</div>
+			{/* <div><Link href=""></Link></div> */}
 		</div>
 	);
 }
