@@ -279,7 +279,11 @@ export function checkAnswer(answer, mode) {
 
 export function reset() {
 	console.log("reset ran");
-	localStorage.clear();
+	// localStorage.clear();
+	localStorage.removeItem("romajiToKatakana");
+	localStorage.removeItem("correct");
+	localStorage.removeItem("incorrect");
+	localStorage.removeItem("incorrectMap");
 	romajiToKatakana = copy;
 	incorrectMap = {};
 	updateMap();
