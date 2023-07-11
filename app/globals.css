@@ -4,16 +4,21 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+	@apply overflow-hidden;
+}
 body {
 	background-color: #1a1938;
 	margin: 0px;
 	padding: 0px;
+	overflow: hidden;
+	z-index: 0;
 }
 
 /* @layer components {
-  .keyboardShowing {
-
-  }
+	.widthZero {
+		width: 0px;
+	}
 } */
 
 /* :root {

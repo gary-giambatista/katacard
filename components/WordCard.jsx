@@ -140,7 +140,11 @@ function WordCard() {
 				</button>
 			</div>
 			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
-				<h1 className={`${checkForMobile() ? "text-4xl" : "text-4xl"} `}>
+				<h1
+					className={`${
+						checkForMobile() ? "text-4xl" : "text-4xl md:text-5xl lg:text-7xl"
+					} `}
+				>
 					{test ? test : "😁"}
 				</h1>
 				<button onClick={() => changeMode()} className="absolute left-5 top-3">

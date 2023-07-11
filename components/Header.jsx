@@ -20,13 +20,13 @@ function Header() {
 
 			{/* <div><Link href=""></Link></div> */}
 			{/* Add Routes for Words and Compound Sounds here */}
-			<Link className=" ml-auto text-white" href="/words">
+			<Link className="hidden sm:block ml-auto text-white" href="/words">
 				Words
 			</Link>
 			{/* hidden sm:block */}
-			{/* <div className="sm:hidden ml-auto">
+			<div className="sm:hidden ml-auto">
 				<MobileNav />
-			</div> */}
+			</div>
 		</nav>
 	);
 }

@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 function MobileNav() {
 	const [isOpen, setIsOpen] = useState(false);
+	const pathname = usePathname(); //"/" or "/words"
 
 	return (
-		<div className="relative  ">
+		<div className="">
 			{isOpen ? (
 				<div
 					onClick={() => setIsOpen(!isOpen)}
@@ -27,20 +29,44 @@ function MobileNav() {
 					<rect y="60" width="100" height="20" rx="8"></rect>
 				</svg>
 			)}
+
 			<div
-				className={`fixed z-50 w-52 h-screen bg-slate-500 ${
-					isOpen
-						? "right-0 transition duration-200 ease-in-out"
-						: "-right-60 hidden"
+				className={`fixed z-50 h-screen bg-[#1A1938] text-white border-l-8 rounded-lg transform transition-all right-0 ${
+					isOpen ? "opacity-100 w-52" : "translate-x-20 opacity-0 mr-20 w-0"
 				}`}
 			>
-				<div className="flex flex-col">
-					<Link href="/">Regular</Link>
-					<Link href="/words">Words</Link>
+				{/* translate-x-10 */}
+				<div
+					className={`flex flex-col ml-5 mt-3 gap-2 text-2xl ${
+						isOpen ? "opacity-100" : "opacity-0 w-0"
+					}`}
+				>
+					<Link
+						className={`${pathname === "/" ? "text-red-500" : ""}`}
+						href="/"
+						onClick={() =>
+							setTimeout(() => {
+								setIsOpen(!isOpen);
+							}, 100)
+						}
+					>
+						Regular
+					</Link>
+					<Link
+						className={`${pathname === "/words" ? "text-red-500" : ""}`}
+						href="/words"
+						onClick={() =>
+							setTimeout(() => {
+								setIsOpen(!isOpen);
+							}, 100)
+						}
+					>
+						Words
+					</Link>
 				</div>
 			</div>
 		</div>
 	);
 }
-//need to add class to change x size
+
 export default MobileNav;
