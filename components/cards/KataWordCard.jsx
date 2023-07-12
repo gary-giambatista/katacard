@@ -16,9 +16,9 @@ import {
 	updateMapOld,
 	updateOldCorrect,
 	updateOldIncorrect,
-} from "../library/katakana_words.js";
+} from "../../library/katakana_words.js";
 
-function WordCard() {
+function KataWordCard() {
 	const [answer, setAnswer] = useState("");
 	const [test, setTest] = useState("");
 	const [currentCount, setCurrentCount] = useState(count);
@@ -101,7 +101,7 @@ function WordCard() {
 
 	return (
 		<div
-			className={`flex flex-col w-full max-w-xs md:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw]  justify-between gap-2 pb-20 ${
+			className={`flex flex-col w-full max-w-xs md:max-w-xl lg:max-w-3xl md:max-h-2xl mt-[5vw] md:mt-[4vw] xl:mt-[2vw] justify-between gap-2 pb-20 ${
 				checkForMobile() ? "h-[52vh]" : "h-[80vh]"
 			}`}
 		>
@@ -214,7 +214,7 @@ function WordCard() {
 //on refresh, incorrectMap is reset on first incorrect answer
 //test failed are not removed from romjaiToKatakana >> cause error with failed number? -- doesn't seem to cause issues ROBUST! lower test count and test again if needed
 
-export default WordCard;
+export default KataWordCard;
 
 //TODO: Modes where to add, new page or input selector? new page>>
 // Create functions in katakana.js and new files like hiragana.js to make Card.jsx re-usable

@@ -1,4 +1,4 @@
-import WordCard from "@/components/WordCard";
+import KataWordCard from "@/components/cards/KataWordCard";
 import React from "react";
 
 export const metadata = {
@@ -9,7 +9,7 @@ export const metadata = {
 function WordsRoute() {
 	return (
 		<div className="flex flex-col items-center h-[100vh] bg-[#1d2642]">
-			<WordCard />
+			<KataWordCard />
 		</div>
 	);
 }

@@ -2,6 +2,7 @@ import KatacardLogo from "@/public/katacard-logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
 function Header() {
@@ -20,9 +21,11 @@ function Header() {
 
 			{/* <div><Link href=""></Link></div> */}
 			{/* Add Routes for Words and Compound Sounds here */}
-			<Link className="hidden sm:block ml-auto text-white" href="/words">
+			{/* Add Client Component for desktop */}
+			{/* <Link className="hidden sm:block ml-auto text-white" href="/words">
 				Words
-			</Link>
+			</Link> */}
+			<DesktopNav />
 			{/* hidden sm:block */}
 			<div className="sm:hidden ml-auto">
 				<MobileNav />

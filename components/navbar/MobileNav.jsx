@@ -42,7 +42,11 @@ function MobileNav() {
 					}`}
 				>
 					<Link
-						className={`${pathname === "/" ? "text-red-500" : ""}`}
+						className={`${
+							pathname === "/"
+								? "underline decoration-4 decoration-red-500"
+								: ""
+						}`}
 						href="/"
 						onClick={() =>
 							setTimeout(() => {
@@ -50,10 +54,14 @@ function MobileNav() {
 							}, 100)
 						}
 					>
-						Regular
+						Katakana
 					</Link>
 					<Link
-						className={`${pathname === "/words" ? "text-red-500" : ""}`}
+						className={`${
+							pathname === "/words"
+								? "underline decoration-4 decoration-red-500"
+								: ""
+						}`}
 						href="/words"
 						onClick={() =>
 							setTimeout(() => {
