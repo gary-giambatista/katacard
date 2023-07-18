@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toHiragana } from "wanakana";
 import {
 	UpdateOldIncorrectMap,
@@ -9,6 +9,8 @@ import {
 	correct,
 	count,
 	incorrect,
+	isCorrectLib,
+	isIncorrectLib,
 	reset,
 	resetFailed,
 	testChar,
@@ -29,6 +31,8 @@ function Katacard() {
 	const [mode, setMode] = useState("Regular"); //Regular or Failed
 	const inputRef = useRef(null);
 	const [isFocused, setIsFocused] = useState(false);
+	const [isCorrect, setIsCorrect] = useState(false);
+	const [isIncorrect, setIsIncorrect] = useState(false);
 
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
@@ -79,7 +83,39 @@ function Katacard() {
 		setCurrentCount(count);
 		setCorrectAnswers(correct);
 		setIncorrectAnswers(incorrect);
-	}, [testChar, correct, incorrect, count, resetTrigger]);
+		setIsCorrect(isCorrectLib);
+		setIsIncorrect(isIncorrectLib);
+	}, [
+		testChar,
+		correct,
+		incorrect,
+		count,
+		isCorrectLib,
+		isIncorrectLib,
+		resetTrigger,
+	]);
+
+	useEffect(() => {
+		colorAnimation(isCorrect, isIncorrect);
+		// console.log("isCorrect: ", isCorrect, "isIncorrect: ", isIncorrect);
+	}, [isCorrect, isIncorrect]);
+
+	const colorAnimation = useCallback((isCorrect, isIncorrect) => {
+		// console.log("COLOR CALLED");
+		if (isCorrect) {
+			//setTimeout to change state after 200ms
+			setTimeout(() => {
+				setIsCorrect(false);
+			}, 100);
+			return "ring-4 md:ring-8 ring-lime-700";
+		} else if (isIncorrect) {
+			//setTimeout to change state after 200ms
+			setTimeout(() => {
+				setIsIncorrect(false);
+			}, 100);
+			return "ring-4 md:ring-8 ring-red-700";
+		} else return "";
+	}, []);
 
 	function changeMode() {
 		!localStorage.getItem("incorrectMap")
@@ -137,13 +173,27 @@ function Katacard() {
 					Change Mode
 				</button>
 			</div>
-			<div className="relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl">
-				<h1 className={`${checkForMobile() ? "text-7xl" : "text-9xl"} `}>
+			<div
+				className={`relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl ${colorAnimation(
+					isCorrect,
+					isIncorrect
+				)}`}
+			>
+				<h1 className={`${checkForMobile() ? "text-7xl" : "text-9xl"}`}>
 					{test ? test : "😁"}
 				</h1>
 				<button onClick={() => changeMode()} className="absolute left-5 top-3">
 					<h5>
-						{mode} {checkForMobile() ? null : "Mode"}
+						{checkForMobile() ? null : "Mode:"}{" "}
+						<span
+							className={`underline decoration-2 ${
+								mode === "Regular"
+									? "decoration-[#7c6e9c]"
+									: "decoration-red-500"
+							}`}
+						>
+							{mode}
+						</span>
 					</h5>
 				</button>
 				<button

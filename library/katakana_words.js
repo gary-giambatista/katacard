@@ -60,7 +60,6 @@ export let romajiToKatakana = {
 	ちょこれーと: "チョコレート",
 	はんばーがー: "ハンバーガー",
 	さんどいっち: "サンドイッチ",
-	すぱげってぃ: "スパゲッティ",
 	さらだ: "サラダ",
 	ばーすでー: "バースデー",
 	ばれんたいん: "バレンタイン",
@@ -99,6 +98,8 @@ export let testChar = romajiToKatakana[testKey];
 export let correct = 0;
 export let incorrect = 0;
 export let count = Object.keys(romajiToKatakana).length;
+export let isCorrectLib = false;
+export let isIncorrectLib = false;
 
 //use set storage function here and get storage in card component page mount useEffect
 function setStorageCorrect() {
@@ -108,7 +109,7 @@ function setStorageCorrect() {
 }
 function setStorageIncorrect() {
 	console.log("Set LOCAL Storage on INCORRECT");
-	localStorage.setItem("KataWordsIncorrect", `${incorrect}`);
+	localStorage.setItem("kataWordsIncorrect", `${incorrect}`);
 }
 function setStorageIncorrectMap() {
 	console.log("Set LOCAL Storage on INCORRECT MAP");
@@ -163,6 +164,8 @@ export function checkAnswer(answer, mode) {
 	const cleanedAnswer = answer.replace(/\s+/g, "").toLowerCase();
 	if (cleanedAnswer === testKey) {
 		console.log("CORRECT");
+		isCorrectLib = true;
+		isIncorrectLib = false;
 		delete romajiToKatakana[testKey];
 		updateMap();
 		correct += 1;
@@ -170,6 +173,8 @@ export function checkAnswer(answer, mode) {
 		return true;
 	} else {
 		console.log("INCORRECT");
+		isCorrectLib = false;
+		isIncorrectLib = true;
 		if (
 			localStorage.getItem("kataWordsIncorrectMap") &&
 			!JSON.parse(localStorage.getItem("kataWordsIncorrectMap"))[testKey]
@@ -204,6 +209,8 @@ export function reset() {
 
 export function changeMapData(mode) {
 	console.log("Changed MODE CALLED", mode);
+	isCorrectLib = false;
+	isIncorrectLib = false;
 	if (mode === "Regular") {
 		const oldRomajiToKatakana = JSON.parse(localStorage.getItem("kataWords"));
 		if (oldRomajiToKatakana) {
@@ -227,6 +234,7 @@ export function changeMapData(mode) {
 export function resetFailed() {
 	console.log("Reset Failed RAN");
 	localStorage.removeItem("kataWordsIncorrectMap");
+	localStorage.removeItem("kataWordsIncorrect");
 	incorrectMap = {};
 	incorrect = 0;
 }

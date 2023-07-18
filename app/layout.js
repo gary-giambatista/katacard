@@ -17,6 +17,18 @@ export default function RootLayout({ children }) {
 					<Header />
 				</header>
 				{children}
+				<footer>
+					<div className="fixed bottom-1 left-1/2 -translate-x-1/2 text-black text-md">
+						<a
+							target="_blank"
+							rel="noopener noreferrer"
+							href="//www.gary-giambatista.com"
+							className="tracking-widest"
+						>
+							Author
+						</a>
+					</div>
+				</footer>
 			</body>
 		</html>
 	);

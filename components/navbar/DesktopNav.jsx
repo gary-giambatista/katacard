@@ -10,7 +10,7 @@ function DesktopNav() {
 		<div className="hidden sm:flex gap-4 ml-auto text-white text-xl">
 			<Link
 				className={`${
-					pathname === "/" ? "underline decoration-4 decoration-red-500" : ""
+					pathname === "/" ? "underline decoration-4 decoration-[#7c6e9c]" : ""
 				}`}
 				href="/"
 			>
@@ -19,7 +19,7 @@ function DesktopNav() {
 			<Link
 				className={`${
 					pathname === "/words"
-						? "underline decoration-4 decoration-red-500"
+						? "underline decoration-4 decoration-[#7c6e9c]"
 						: ""
 				}`}
 				href="/words"

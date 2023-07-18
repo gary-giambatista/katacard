@@ -44,7 +44,7 @@ function MobileNav() {
 					<Link
 						className={`${
 							pathname === "/"
-								? "underline decoration-4 decoration-red-500"
+								? "underline decoration-4 decoration-[#7c6e9c]"
 								: ""
 						}`}
 						href="/"
@@ -59,7 +59,7 @@ function MobileNav() {
 					<Link
 						className={`${
 							pathname === "/words"
-								? "underline decoration-4 decoration-red-500"
+								? "underline decoration-4 decoration-[#7c6e9c]"
 								: ""
 						}`}
 						href="/words"
