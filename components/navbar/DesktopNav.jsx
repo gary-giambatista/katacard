@@ -26,6 +26,16 @@ function DesktopNav() {
 			>
 				Words
 			</Link>
+			<Link
+				className={`${
+					pathname === "/hiragana"
+						? "underline decoration-4 decoration-[#7c6e9c]"
+						: ""
+				}`}
+				href="/hiragana"
+			>
+				Hiragana
+			</Link>
 		</div>
 	);
 }

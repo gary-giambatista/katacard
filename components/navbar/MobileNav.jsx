@@ -71,6 +71,21 @@ function MobileNav() {
 					>
 						Words
 					</Link>
+					<Link
+						className={`${
+							pathname === "/hiragana"
+								? "underline decoration-4 decoration-[#7c6e9c]"
+								: ""
+						}`}
+						href="/hiragana"
+						onClick={() =>
+							setTimeout(() => {
+								setIsOpen(!isOpen);
+							}, 100)
+						}
+					>
+						Hiragana
+					</Link>
 				</div>
 			</div>
 		</div>

@@ -1,78 +1,77 @@
 "use client";
 
-//object to store key => value pairs (romaji > katakana)
 export let romajiToKatakana = {
-	あ: "ア",
-	い: "イ",
-	う: "ウ",
-	え: "エ",
-	お: "オ",
-	か: "カ",
-	き: "キ",
-	く: "ク",
-	け: "ケ",
-	こ: "コ",
-	さ: "サ",
-	し: "シ",
-	す: "ス",
-	せ: "セ",
-	そ: "ソ",
-	た: "タ",
-	ち: "チ",
-	つ: "ツ",
-	て: "テ",
-	と: "ト",
-	な: "ナ",
-	に: "ニ",
-	ぬ: "ヌ",
-	ね: "ネ",
-	の: "ノ",
-	は: "ハ",
-	ひ: "ヒ",
-	ふ: "フ",
-	へ: "ヘ",
-	ほ: "ホ",
-	ま: "マ",
-	み: "ミ",
-	む: "ム",
-	め: "メ",
-	も: "モ",
-	や: "ヤ",
-	ゆ: "ユ",
-	よ: "ヨ",
-	ら: "ラ",
-	り: "リ",
-	る: "ル",
-	れ: "レ",
-	ろ: "ロ",
-	わ: "ワ",
-	を: "ヲ",
-	ん: "ン",
-	が: "ガ",
-	ぎ: "ギ",
-	ぐ: "グ",
-	げ: "ゲ",
-	ご: "ゴ",
-	ざ: "ザ",
-	じ: "ジ",
-	ず: "ズ",
-	ぜ: "ゼ",
-	ぞ: "ゾ",
-	だ: "ダ",
-	ぢ: "ヂ",
-	づ: "ヅ",
-	で: "デ",
-	ど: "ド",
-	ば: "バ",
-	び: "ビ",
-	ぶ: "ブ",
-	べ: "ベ",
-	ぼ: "ボ",
-	ぱ: "パ",
-	ぴ: "ピ",
-	ぷ: "プ",
-	ぺ: "ペ",
-	ぽ: "ポ",
+	ア: "あ",
+	イ: "い",
+	ウ: "う",
+	エ: "え",
+	オ: "お",
+	カ: "か",
+	ガ: "が",
+	キ: "き",
+	ギ: "ぎ",
+	ク: "く",
+	グ: "ぐ",
+	ケ: "け",
+	ゲ: "げ",
+	コ: "こ",
+	ゴ: "ご",
+	サ: "さ",
+	ザ: "ざ",
+	シ: "し",
+	ジ: "じ",
+	ス: "す",
+	ズ: "ず",
+	セ: "せ",
+	ゼ: "ぜ",
+	ソ: "そ",
+	ゾ: "ぞ",
+	タ: "た",
+	ダ: "だ",
+	チ: "ち",
+	ヂ: "ぢ",
+	ツ: "つ",
+	ヅ: "づ",
+	テ: "て",
+	デ: "で",
+	ト: "と",
+	ド: "ど",
+	ナ: "な",
+	ニ: "に",
+	ヌ: "ぬ",
+	ネ: "ね",
+	ノ: "の",
+	ハ: "は",
+	バ: "ば",
+	パ: "ぱ",
+	ヒ: "ひ",
+	ビ: "び",
+	ピ: "ぴ",
+	フ: "ふ",
+	ブ: "ぶ",
+	プ: "ぷ",
+	ヘ: "へ",
+	ベ: "べ",
+	ペ: "ぺ",
+	ホ: "ほ",
+	ボ: "ぼ",
+	ポ: "ぽ",
+	マ: "ま",
+	ミ: "み",
+	ム: "む",
+	メ: "め",
+	モ: "も",
+	ヤ: "や",
+	ユ: "ゆ",
+	ヨ: "よ",
+	ラ: "ら",
+	リ: "り",
+	ル: "る",
+	レ: "れ",
+	ロ: "ろ",
+	ワ: "わ",
+	ヲ: "を",
+	ン: "ん",
 };
 let copy = { ...romajiToKatakana };
 export let incorrectMap = {};
@@ -127,18 +126,18 @@ export let attempedLib = false;
 //use set storage function here and get storage in card component page mount useEffect
 function setStorageCorrect() {
 	console.log("Set LOCAL Storage on CORRECT");
-	localStorage.setItem("romajiToKatakana", JSON.stringify(romajiToKatakana));
-	localStorage.setItem("correct", `${correct}`);
+	localStorage.setItem("hiragana", JSON.stringify(romajiToKatakana));
+	localStorage.setItem("hiraganaCorrect", `${correct}`);
 }
 function setStorageIncorrect() {
 	console.log("Set LOCAL Storage on INCORRECT");
-	localStorage.setItem("incorrect", `${incorrect}`);
+	localStorage.setItem("hiraganaIncorrect", `${incorrect}`);
 }
 function setStorageIncorrectMap() {
 	console.log("Set LOCAL Storage on INCORRECT MAP");
 	console.log(testKey, testChar, typeof testKey, typeof testChar);
 	incorrectMap[testKey] = testChar;
-	localStorage.setItem("incorrectMap", JSON.stringify(incorrectMap));
+	localStorage.setItem("hiraganaIncorrectMap", JSON.stringify(incorrectMap));
 }
 
 //Helper function to reset global values after getting answer CORRECT
@@ -201,8 +200,8 @@ export function checkAnswer(answer, mode) {
 		isIncorrectLib = true;
 		attempedLib = !attempedLib;
 		if (
-			localStorage.getItem("incorrectMap") &&
-			!JSON.parse(localStorage.getItem("incorrectMap"))[testKey]
+			localStorage.getItem("hiraganaIncorrectMap") &&
+			!JSON.parse(localStorage.getItem("hiraganaIncorrectMap"))[testKey]
 		) {
 			incorrect += 1;
 		}
@@ -220,10 +219,10 @@ export function checkAnswer(answer, mode) {
 export function reset() {
 	console.log("reset ran");
 	// localStorage.clear();
-	localStorage.removeItem("romajiToKatakana");
-	localStorage.removeItem("correct");
-	localStorage.removeItem("incorrect");
-	localStorage.removeItem("incorrectMap");
+	localStorage.removeItem("hiragana");
+	localStorage.removeItem("hiraganaCorrect");
+	localStorage.removeItem("hiraganaIncorrect");
+	localStorage.removeItem("hiraganaIncorrectMap");
 	romajiToKatakana = copy;
 	incorrectMap = {};
 	updateMap();
@@ -239,9 +238,7 @@ export function changeMapData(mode) {
 	isCorrectLib = false;
 	isIncorrectLib = false;
 	if (mode === "Regular") {
-		const oldRomajiToKatakana = JSON.parse(
-			localStorage.getItem("romajiToKatakana")
-		);
+		const oldRomajiToKatakana = JSON.parse(localStorage.getItem("hiragana"));
 		if (oldRomajiToKatakana) {
 			updateMapOld(oldRomajiToKatakana);
 		} else {
@@ -251,7 +248,7 @@ export function changeMapData(mode) {
 		}
 	} else {
 		const failedKatakanaToRomaji = JSON.parse(
-			localStorage.getItem("incorrectMap")
+			localStorage.getItem("hiraganaIncorrectMap")
 		);
 		if (failedKatakanaToRomaji) {
 			romajiToKatakana = failedKatakanaToRomaji;
@@ -262,8 +259,8 @@ export function changeMapData(mode) {
 
 export function resetFailed() {
 	console.log("Reset Failed RAN");
-	localStorage.removeItem("incorrectMap");
-	localStorage.removeItem("incorrect");
+	localStorage.removeItem("hiraganaIncorrectMap");
+	localStorage.removeItem("hiraganaIncorrect");
 	incorrectMap = {};
 	incorrect = 0;
 	isCorrectLib = false;
