@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toHiragana } from "wanakana";
 import {
 	UpdateOldIncorrectMap,
+	attempedLib,
 	changeMapData,
 	checkAnswer,
 	correct,
@@ -33,6 +34,7 @@ function KataWordCard() {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isCorrect, setIsCorrect] = useState(false);
 	const [isIncorrect, setIsIncorrect] = useState(false);
+	const [attemped, setAttemped] = useState(attempedLib);
 
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
@@ -87,6 +89,7 @@ function KataWordCard() {
 		setIncorrectAnswers(incorrect);
 		setIsCorrect(isCorrectLib);
 		setIsIncorrect(isIncorrectLib);
+		setAttemped(attempedLib);
 	}, [
 		testChar,
 		correct,
@@ -94,6 +97,7 @@ function KataWordCard() {
 		count,
 		isCorrectLib,
 		isIncorrectLib,
+		attempedLib,
 		resetTrigger,
 	]);
 
@@ -109,13 +113,15 @@ function KataWordCard() {
 			setTimeout(() => {
 				setIsCorrect(false);
 			}, 100);
-			return "ring-4 md:ring-8 ring-lime-700";
+			return "animate-text bg-gradient-to-t from-white to-green-700 bg-clip-text text-transparent";
+			// "ring-4 md:ring-8 ring-lime-700";
 		} else if (isIncorrect) {
 			//setTimeout to change state after 200ms
 			setTimeout(() => {
 				setIsIncorrect(false);
 			}, 100);
-			return "ring-4 md:ring-8 ring-red-700";
+			return "animate-text bg-gradient-to-t from-white to-red-700 bg-clip-text text-transparent";
+			// ring-4 md:ring-8 ring-red-700
 		} else return "";
 	}, []);
 
@@ -195,15 +201,12 @@ function KataWordCard() {
 			</div>
 			{/* Border testing: border-2 border-[#1a1938]/50 */}
 			<div
-				className={`relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl ${colorAnimation(
-					isCorrect,
-					isIncorrect
-				)}`}
+				className={`relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl`}
 			>
 				<h1
 					className={`${
 						checkForMobile() ? "text-4xl" : "text-4xl md:text-5xl lg:text-7xl"
-					} `}
+					} ${colorAnimation(isCorrect, isIncorrect)} `}
 				>
 					{test ? test : "😁"}
 					{/* {mode === "Regular" && localStorage.getItem("kataWords") && !test

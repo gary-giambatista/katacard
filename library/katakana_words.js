@@ -100,6 +100,7 @@ export let incorrect = 0;
 export let count = Object.keys(romajiToKatakana).length;
 export let isCorrectLib = false;
 export let isIncorrectLib = false;
+export let attempedLib = false;
 
 //use set storage function here and get storage in card component page mount useEffect
 function setStorageCorrect() {
@@ -175,6 +176,7 @@ export function checkAnswer(answer, mode) {
 		console.log("INCORRECT");
 		isCorrectLib = false;
 		isIncorrectLib = true;
+		attempedLib = !attempedLib;
 		if (
 			localStorage.getItem("kataWordsIncorrectMap") &&
 			!JSON.parse(localStorage.getItem("kataWordsIncorrectMap"))[testKey]
@@ -205,6 +207,8 @@ export function reset() {
 	correct = 0;
 	incorrect = 0;
 	count = Object.keys(romajiToKatakana).length;
+	isCorrectLib = false;
+	isIncorrectLib = false;
 }
 
 export function changeMapData(mode) {
@@ -237,4 +241,6 @@ export function resetFailed() {
 	localStorage.removeItem("kataWordsIncorrect");
 	incorrectMap = {};
 	incorrect = 0;
+	isCorrectLib = false;
+	isIncorrectLib = false;
 }

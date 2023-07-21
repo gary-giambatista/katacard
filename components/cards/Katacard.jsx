@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toHiragana } from "wanakana";
 import {
 	UpdateOldIncorrectMap,
+	attempedLib,
 	changeMapData,
 	checkAnswer,
 	correct,
@@ -33,6 +34,7 @@ function Katacard() {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isCorrect, setIsCorrect] = useState(false);
 	const [isIncorrect, setIsIncorrect] = useState(false);
+	const [attemped, setAttemped] = useState(attempedLib);
 
 	//Check for existing session from Local Storage and update global state
 	useEffect(() => {
@@ -85,6 +87,7 @@ function Katacard() {
 		setIncorrectAnswers(incorrect);
 		setIsCorrect(isCorrectLib);
 		setIsIncorrect(isIncorrectLib);
+		setAttemped(attempedLib);
 	}, [
 		testChar,
 		correct,
@@ -92,6 +95,7 @@ function Katacard() {
 		count,
 		isCorrectLib,
 		isIncorrectLib,
+		attempedLib,
 		resetTrigger,
 	]);
 
@@ -107,13 +111,15 @@ function Katacard() {
 			setTimeout(() => {
 				setIsCorrect(false);
 			}, 100);
-			return "ring-4 md:ring-8 ring-lime-700";
+			return "animate-text bg-gradient-to-t from-white to-green-700 bg-clip-text text-transparent";
+			// "ring-4 md:ring-8 ring-lime-700";
 		} else if (isIncorrect) {
 			//setTimeout to change state after 200ms
 			setTimeout(() => {
 				setIsIncorrect(false);
 			}, 100);
-			return "ring-4 md:ring-8 ring-red-700";
+			return "animate-text bg-gradient-to-t from-white to-red-700 bg-clip-text text-transparent";
+			// ring-4 md:ring-8 ring-red-700
 		} else return "";
 	}, []);
 
@@ -174,12 +180,14 @@ function Katacard() {
 				</button>
 			</div>
 			<div
-				className={`relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl ${colorAnimation(
-					isCorrect,
-					isIncorrect
-				)}`}
+				className={`relative flex justify-center items-center w-full h-[80%] bg-[#2E204F] text-gray-50 drop-shadow-lg rounded-2xl `}
 			>
-				<h1 className={`${checkForMobile() ? "text-7xl" : "text-9xl"}`}>
+				{/* move colorAnimation above for border style*/}
+				<h1
+					className={`${
+						checkForMobile() ? "text-7xl" : "text-9xl"
+					} ${colorAnimation(isCorrect, isIncorrect)}`}
+				>
 					{test ? test : "😁"}
 				</h1>
 				<button onClick={() => changeMode()} className="absolute left-5 top-3">
